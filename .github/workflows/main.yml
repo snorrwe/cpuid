@@ -33,8 +33,9 @@ jobs:
 
       - name: Meson Build
         uses: BSFishy/meson-build@v1.0.3
-        action: build
-        directory: build
+        with:
+          action: build
+          directory: build
       - name: Run
         run: | 
           ./cpu-query
