@@ -35,10 +35,10 @@ static PyMethodDef QueryMethods[] = {
 
 static struct PyModuleDef pycqmodule = {
     PyModuleDef_HEAD_INIT,
-    "pycq",
-    NULL, // Documentation TODO
-    -1,   // module state is global
-    QueryMethods
+    .m_name = "pycq",
+    .m_doc = NULL, // Documentation TODO
+    .m_size = -1,   // module state is global
+    .m_methods = QueryMethods
 };
 
 PyMODINIT_FUNC
