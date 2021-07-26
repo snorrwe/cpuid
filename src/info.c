@@ -1,4 +1,4 @@
-#include "queries.h"
+#include "cq.h"
 
 #include <stdio.h>
 
@@ -16,14 +16,14 @@ union ax {
     } b;
 };
 
-void query_cpuinfo(void)
+void cq_cpuinfo(void)
 {
 
     union ax ax;
     unsigned bx, cx, dx;
 
     ax.e = 1;
-    cpuid(&ax.e, &bx, &cx, &dx);
+    cq_cpuid(&ax.e, &bx, &cx, &dx);
 
     const unsigned family_id = ax.b.family + ((ax.b.family == 0xf) * ax.b.ext_family);
 

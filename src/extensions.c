@@ -1,4 +1,4 @@
-#include "queries.h"
+#include "cq.h"
 
 #include <stdio.h>
 
@@ -197,7 +197,7 @@ static inline void dx_print(union dx dx)
     printf("Speculative Store Bypass Disable as mitigation for Speculative Store Bypass  (IA32_SPEC_CTRL): %d\n", dx.b.ssbd);
 }
 
-void query_extensions(void)
+void cq_extensions(void)
 {
     unsigned ax;
     union bx bx;
@@ -206,7 +206,7 @@ void query_extensions(void)
 
     ax = 7;
     cx.e = 0;
-    cpuid(&ax, &bx.e, &cx.e, &dx.e);
+    cq_cpuid(&ax, &bx.e, &cx.e, &dx.e);
 
     bx_print(bx);
     cx_print(cx);
