@@ -72,7 +72,7 @@ struct cq_cache_info cq_cache(int cache_idx)
     };
 }
 
-const char* const cq_cache_type_str(enum cq_cache_type ty)
+const char* cq_cache_type_str(enum cq_cache_type ty)
 {
     static const char* const str[CQ_TYPE_MAX] = {
         [CQ_TYPE_NULL] = "NULL",
