@@ -58,19 +58,18 @@ union cx {
         unsigned vpclmulqdq : 1;
         unsigned avx512_vnni : 1;
         unsigned avx512_bitalg : 1;
-        unsigned res1_ : 1; // reserved bit
+        unsigned res1_ : 1;
         unsigned avx512_vpopcntdq : 1;
-        unsigned res2_ : 1; // reserved bit
+        unsigned res2_ : 1;
         unsigned five_l_paging : 1;
         unsigned mawau : 5;
         unsigned rdpid : 1;
-        unsigned res3_ : 1; // reserved bit
-        unsigned res4_ : 1; // reserved bit
+        unsigned res3_ : 2;
         unsigned cldemote : 1;
-        unsigned res5_ : 1; // reserved bit
-        unsigned MOVDIRI : 1;
-        unsigned MOVDIR64B : 1;
-        unsigned ENQCMD : 1;
+        unsigned res4_ : 1;
+        unsigned movdiri : 1;
+        unsigned movdir64b : 1;
+        unsigned enqcmd : 1;
         unsigned sgx_lc : 1;
         unsigned pks : 1;
     } b;
@@ -79,33 +78,32 @@ union cx {
 union dx {
     unsigned e;
     struct {
-        unsigned res0_ : 2;                  //reserved
-        unsigned avx512_4vnniw : 1;          // AVX-512 4-register Neural Network Instructions
-        unsigned avx512_4fmaps : 1;          // AVX-512 4-register Multiply Accumulation Single precision
-        unsigned fsrm : 1;                   // Fast Short REP MOVSB
-        unsigned res1_ : 3;                  //reserved
-        unsigned avx512_vp2intersect : 1;    // AVX-512#New instructions in AVX-512 VP2INTERSECT|AVX-512 VP2INTERSECT Doubleword and Quadword Instructions
-        unsigned SRBDS_CTRL : 1;             // Special Register Buffer Data Sampling Mitigations
-        unsigned md_clear : 1;               // VERW instruction clears CPU buffers
-        unsigned res2_ : 2;                  //reserved
-        unsigned tsx_force_abort : 1;        //
-        unsigned SERIALIZE : 1;              // Serialize instruction execution
-        unsigned Hybrid : 1;                 //
-        unsigned TSXLDTRK : 1;               // TSX suspend load address tracking
-        unsigned pconfig : 1;                // Platform configuration (Memory Encryption Technologies Instructions)
-        unsigned lbr : 1;                    // Architectural Last Branch Records
-        unsigned cet_ibt : 1;                // Control flow enforcement (CET) indirect branch tracking
-        unsigned res3_ : 1;                  // reserved
-        unsigned amx_bf16 : 1;               // Tile computation on bfloat16 numbers
-        unsigned amx_tile : 1;               // Tile architecture
-        unsigned amx_int8 : 1;               // Tile computation on 8-bit integers
-        unsigned spec_ctrl : 1;              // Speculation Control
-        unsigned stibp : 1;                  // Single Thread Indirect Branch Predictor
-        unsigned l1d_flush : 1;              // IA32_FLUSH_CMD MSR
-        unsigned ia32_arch_capabilities : 1; // Speculative Side Channel Mitigations<ref name="Intel_2018_SESEM"/>
-        unsigned ia32_core_capabilities : 1; // Support for a MSR listing model-specific core capabilities
-        unsigned ssbd : 1;                   // Speculative Store Bypass Disable,<ref name="Intel_2018_SESEM"/> as mitigation for Speculative Store Bypass  (IA32_SPEC_CTRL)
-
+        unsigned res0_ : 2;
+        unsigned avx512_4vnniw : 1;
+        unsigned avx512_4fmaps : 1;
+        unsigned fsrm : 1;
+        unsigned res1_ : 3;
+        unsigned avx512_vp2intersect : 1;
+        unsigned srbds_ctrl : 1;
+        unsigned md_clear : 1;
+        unsigned res2_ : 2;
+        unsigned tsx_force_abort : 1;
+        unsigned serialize : 1;
+        unsigned Hybrid : 1;
+        unsigned tsxldtrk : 1;
+        unsigned pconfig : 1;
+        unsigned lbr : 1;
+        unsigned cet_ibt : 1;
+        unsigned res3_ : 1;
+        unsigned amx_bf16 : 1;
+        unsigned amx_tile : 1;
+        unsigned amx_int8 : 1;
+        unsigned spec_ctrl : 1;
+        unsigned stibp : 1;
+        unsigned l1d_flush : 1;
+        unsigned ia32_arch_capabilities : 1;
+        unsigned ia32_core_capabilities : 1;
+        unsigned ssbd : 1;
     } b;
 };
 
@@ -164,9 +162,9 @@ static inline void cx_print(union cx cx)
     printf("Intel 5-level paging: %d\n", cx.b.five_l_paging);
     printf("Read Processor ID and IA32_TSC_AUX: %d\n", cx.b.rdpid);
     printf("Cache line demote: %d\n", cx.b.cldemote);
-    printf("MOVDIRI: %d\n", cx.b.MOVDIRI);
-    printf("MOVDIR64B: %d\n", cx.b.MOVDIR64B);
-    printf("Enqueue Stores: %d\n", cx.b.ENQCMD);
+    printf("MOVDIRI: %d\n", cx.b.movdiri);
+    printf("MOVDIR64B: %d\n", cx.b.movdir64b);
+    printf("Enqueue Stores: %d\n", cx.b.enqcmd);
     printf("SGX Launch Configuration: %d\n", cx.b.sgx_lc);
     printf("Protection keys for supervisor-mode pages: %d\n", cx.b.pks);
 }
@@ -179,13 +177,13 @@ static inline void dx_print(union dx dx)
     printf("Fast Short REP MOVSB: %d\n", dx.b.fsrm);
     printf("reserved: %d\n", dx.b.res1_);
     printf("AVX-512#New instructions in AVX-512 VP2INTERSECT|AVX-512 VP2INTERSECT Doubleword and Quadword Instructions: %d\n", dx.b.avx512_vp2intersect);
-    printf("Special Register Buffer Data Sampling Mitigations: %d\n", dx.b.SRBDS_CTRL);
+    printf("Special Register Buffer Data Sampling Mitigations: %d\n", dx.b.srbds_ctrl);
     printf("VERW instruction clears CPU buffers: %d\n", dx.b.md_clear);
     printf("reserved: %d\n", dx.b.res2_);
     printf("tsx_force_abort : %d\n", dx.b.tsx_force_abort);
-    printf(" Serialize instruction execution: %d\n", dx.b.SERIALIZE);
+    printf(" Serialize instruction execution: %d\n", dx.b.serialize);
     printf("Hybrid : %d\n", dx.b.Hybrid);
-    printf("TSX suspend load address tracking: %d\n", dx.b.TSXLDTRK);
+    printf("TSX suspend load address tracking: %d\n", dx.b.tsxldtrk);
     printf("Platform configuration (Memory Encryption Technologies Instructions): %d\n", dx.b.pconfig);
     printf("Architectural Last Branch Records: %d\n", dx.b.lbr);
     printf("Control flow enforcement (CET) indirect branch tracking: %d\n", dx.b.cet_ibt);
@@ -208,7 +206,7 @@ void query_extensions(void)
     union cx cx;
     union dx dx;
 
-    ax = 0x7;
+    ax = 7;
     cx.e = 0;
     cpuid(&ax, &bx.e, &cx.e, &dx.e);
 
