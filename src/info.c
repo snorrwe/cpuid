@@ -34,4 +34,12 @@ void query_cpuinfo(void)
 
     printf("Family Id: %d\n", family_id);
     printf("Model  Id: %d\n", model_id);
+
+    const char* ty_str[4] = {
+        "Original equipment manufacturer (OEM) Processor",
+        "Intel Overdrive Processor",
+        "Dual processor (not applicable to Intel486 processors)",
+        "Reserved value "
+    };
+    printf("Processor type: %s\n", ty_str[ax.b.ty]);
 }
