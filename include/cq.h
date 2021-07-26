@@ -12,7 +12,7 @@ enum cq_cache_type {
     CQ_TYPE_MAX = 4,
 };
 
-const char* const cq_cache_type_str(enum cq_cache_type ty);
+const char* cq_cache_type_str(enum cq_cache_type ty);
 
 struct cq_cache_info {
     int cache_idx;
