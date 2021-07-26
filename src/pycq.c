@@ -17,7 +17,7 @@ pycq_query(PyObject* self, PyObject* args)
         if (info.cache_idx < 0) {
             break;
         }
-        PyObject* item = Py_BuildValue("{s:i,s:i,s:i,s:s}", "cache_size", info.cache_size, "lvl", info.lvl, "line_size", info.linesz_ml, "ty", cq_cache_type_str(info.type));
+        PyObject* item = Py_BuildValue("{s:i,s:i,s:i,s:s}", "cache_size", info.cache_size, "lvl", info.lvl, "line_size", info.linesz_ml + 1, "ty", cq_cache_type_str(info.type));
         PyList_Append(list, item);
         Py_DecRef(item);
         ++cache_idx;
