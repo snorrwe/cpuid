@@ -1,5 +1,3 @@
-//! SEE: https://en.wikipedia.org/wiki/CPUID
-
 #include "queries.h"
 
 #include <stdio.h>

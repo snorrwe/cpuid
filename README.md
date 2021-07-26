@@ -1,3 +1,6 @@
+
+See: [Wikipedia entry for CPUID](https://en.wikipedia.org/wiki/CPUID)
+
 ## Build Requirements
 
 -   [Meson](https://mesonbuild.com)
@@ -11,3 +14,4 @@ meson setup build
 cd build
 ninja
 ```
+
