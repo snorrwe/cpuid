@@ -1,28 +1,9 @@
-// from https://en.wikipedia.org/wiki/CPUID
+//! SEE: https://en.wikipedia.org/wiki/CPUID
+
+#include "queries.h"
+
 #include <assert.h>
 #include <stdio.h>
-
-#ifdef __PIC__
-static inline void cpuid(unsigned* restrict const a, unsigned* restrict const b, unsigned* restrict const c, unsigned* restrict const d)
-{
-    __asm__ __volatile__("xchg %%ebx, %1\n\t"
-                         "cpuid\n\t"
-                         "xchg %1, %%ebx\n\t"
-                         : "+a"(*a),
-                         "+b"(*b),
-                         "+c"(*c),
-                         "+d"(*d));
-}
-#else
-static inline void cpuid(unsigned* restrict const a, unsigned* restrict const b, unsigned* restrict const c, unsigned* restrict const d)
-{
-    __asm__ __volatile__("cpuid\n\t"
-                         : "+a"(*a),
-                         "+b"(*b),
-                         "+c"(*c),
-                         "+d"(*d));
-}
-#endif
 
 union bx {
     unsigned e;
@@ -78,15 +59,20 @@ union cx {
         unsigned vpclmulqdq : 1;
         unsigned avx512_vnni : 1;
         unsigned avx512_bitalg : 1;
+        // reserved bit
         unsigned res1_ : 1;
         unsigned avx512_vpopcntdq : 1;
+        // reserved bit
         unsigned res2_ : 1;
         unsigned five_l_paging : 1;
         unsigned mawau : 5;
         unsigned rdpid : 1;
+        // reserved bit
         unsigned res3_ : 1;
+        // reserved bit
         unsigned res4_ : 1;
         unsigned cldemote : 1;
+        // reserved bit
         unsigned res5_ : 1;
         unsigned MOVDIRI : 1;
         unsigned MOVDIR64B : 1;
@@ -160,7 +146,6 @@ static inline void cx_print(union cx cx)
 
 void query_extensions(void)
 {
-    assert(sizeof(union bx) == sizeof(unsigned));
     unsigned ax, dx;
     union bx bx;
     union cx cx;
@@ -171,9 +156,4 @@ void query_extensions(void)
 
     bx_print(bx);
     cx_print(cx);
-}
-
-int main(void)
-{
-    query_extensions();
 }
