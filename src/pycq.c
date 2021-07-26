@@ -8,6 +8,9 @@
 static PyObject*
 pycq_query(PyObject* self, PyObject* args)
 {
+    (void)self;
+    (void)args;
+
     PyObject* list = PyList_New(0);
 
     unsigned cache_idx = 0;
@@ -26,7 +29,7 @@ pycq_query(PyObject* self, PyObject* args)
 }
 
 static PyMethodDef QueryMethods[] = {
-    { "query", pycq_query, METH_FASTCALL },
+    { "query", pycq_query, METH_FASTCALL, "Query the current CPU features\nFields: TBA" },
     { NULL, NULL, 0, NULL } // Sentinel
 };
 
