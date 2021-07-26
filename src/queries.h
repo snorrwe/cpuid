@@ -2,6 +2,7 @@
 
 void query_extensions(void);
 void query_caches(void);
+void query_cpuinfo(void);
 
 #ifdef __PIC__
 static inline void cpuid(unsigned* restrict const a, unsigned* restrict const b, unsigned* restrict const c, unsigned* restrict const d)

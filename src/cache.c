@@ -1,6 +1,5 @@
 #include "queries.h"
 
-#include <assert.h>
 #include <stdio.h>
 
 /**
@@ -47,11 +46,6 @@ union bx {
 void query_caches(void)
 {
     unsigned cache_idx = 0;
-
-#ifdef static_assert
-    static_assert(sizeof(union ax) == sizeof(unsigned), "");
-    static_assert(sizeof(union bx) == sizeof(unsigned), "");
-#endif
 
     while (1) {
         const char* const units[] = { "  B", "KiB", "MiB", "GiB", NULL };

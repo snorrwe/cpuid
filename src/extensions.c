@@ -2,7 +2,6 @@
 
 #include "queries.h"
 
-#include <assert.h>
 #include <stdio.h>
 
 union bx {
@@ -59,26 +58,54 @@ union cx {
         unsigned vpclmulqdq : 1;
         unsigned avx512_vnni : 1;
         unsigned avx512_bitalg : 1;
-        // reserved bit
-        unsigned res1_ : 1;
+        unsigned res1_ : 1; // reserved bit
         unsigned avx512_vpopcntdq : 1;
-        // reserved bit
-        unsigned res2_ : 1;
+        unsigned res2_ : 1; // reserved bit
         unsigned five_l_paging : 1;
         unsigned mawau : 5;
         unsigned rdpid : 1;
-        // reserved bit
-        unsigned res3_ : 1;
-        // reserved bit
-        unsigned res4_ : 1;
+        unsigned res3_ : 1; // reserved bit
+        unsigned res4_ : 1; // reserved bit
         unsigned cldemote : 1;
-        // reserved bit
-        unsigned res5_ : 1;
+        unsigned res5_ : 1; // reserved bit
         unsigned MOVDIRI : 1;
         unsigned MOVDIR64B : 1;
         unsigned ENQCMD : 1;
         unsigned sgx_lc : 1;
         unsigned pks : 1;
+    } b;
+};
+
+union dx {
+    unsigned e;
+    struct {
+        unsigned res0_ : 2;                  //reserved
+        unsigned avx512_4vnniw : 1;          // AVX-512 4-register Neural Network Instructions
+        unsigned avx512_4fmaps : 1;          // AVX-512 4-register Multiply Accumulation Single precision
+        unsigned fsrm : 1;                   // Fast Short REP MOVSB
+        unsigned res1_ : 3;                  //reserved
+        unsigned avx512_vp2intersect : 1;    // AVX-512#New instructions in AVX-512 VP2INTERSECT|AVX-512 VP2INTERSECT Doubleword and Quadword Instructions
+        unsigned SRBDS_CTRL : 1;             // Special Register Buffer Data Sampling Mitigations
+        unsigned md_clear : 1;               // VERW instruction clears CPU buffers
+        unsigned res2_ : 2;                  //reserved
+        unsigned tsx_force_abort : 1;        //
+        unsigned SERIALIZE : 1;              // Serialize instruction execution
+        unsigned Hybrid : 1;                 //
+        unsigned TSXLDTRK : 1;               // TSX suspend load address tracking
+        unsigned pconfig : 1;                // Platform configuration (Memory Encryption Technologies Instructions)
+        unsigned lbr : 1;                    // Architectural Last Branch Records
+        unsigned cet_ibt : 1;                // Control flow enforcement (CET) indirect branch tracking
+        unsigned res3_ : 1;                  // reserved
+        unsigned amx_bf16 : 1;               // Tile computation on bfloat16 numbers
+        unsigned amx_tile : 1;               // Tile architecture
+        unsigned amx_int8 : 1;               // Tile computation on 8-bit integers
+        unsigned spec_ctrl : 1;              // Speculation Control
+        unsigned stibp : 1;                  // Single Thread Indirect Branch Predictor
+        unsigned l1d_flush : 1;              // IA32_FLUSH_CMD MSR
+        unsigned ia32_arch_capabilities : 1; // Speculative Side Channel Mitigations<ref name="Intel_2018_SESEM"/>
+        unsigned ia32_core_capabilities : 1; // Support for a MSR listing model-specific core capabilities
+        unsigned ssbd : 1;                   // Speculative Store Bypass Disable,<ref name="Intel_2018_SESEM"/> as mitigation for Speculative Store Bypass  (IA32_SPEC_CTRL)
+
     } b;
 };
 
@@ -144,16 +171,48 @@ static inline void cx_print(union cx cx)
     printf("Protection keys for supervisor-mode pages: %d\n", cx.b.pks);
 }
 
+static inline void dx_print(union dx dx)
+{
+    printf("reserved: %d\n", dx.b.res0_);
+    printf("AVX-512 4-register Neural Network Instructions: %d\n", dx.b.avx512_4vnniw);
+    printf("AVX-512 4-register Multiply Accumulation Single precision: %d\n", dx.b.avx512_4fmaps);
+    printf("Fast Short REP MOVSB: %d\n", dx.b.fsrm);
+    printf("reserved: %d\n", dx.b.res1_);
+    printf("AVX-512#New instructions in AVX-512 VP2INTERSECT|AVX-512 VP2INTERSECT Doubleword and Quadword Instructions: %d\n", dx.b.avx512_vp2intersect);
+    printf("Special Register Buffer Data Sampling Mitigations: %d\n", dx.b.SRBDS_CTRL);
+    printf("VERW instruction clears CPU buffers: %d\n", dx.b.md_clear);
+    printf("reserved: %d\n", dx.b.res2_);
+    printf("tsx_force_abort : %d\n", dx.b.tsx_force_abort);
+    printf(" Serialize instruction execution: %d\n", dx.b.SERIALIZE);
+    printf("Hybrid : %d\n", dx.b.Hybrid);
+    printf("TSX suspend load address tracking: %d\n", dx.b.TSXLDTRK);
+    printf("Platform configuration (Memory Encryption Technologies Instructions): %d\n", dx.b.pconfig);
+    printf("Architectural Last Branch Records: %d\n", dx.b.lbr);
+    printf("Control flow enforcement (CET) indirect branch tracking: %d\n", dx.b.cet_ibt);
+    printf("reserved: %d\n", dx.b.res3_);
+    printf("Tile computation on bfloat16 numbers: %d\n", dx.b.amx_bf16);
+    printf("Tile architecture: %d\n", dx.b.amx_tile);
+    printf("Tile computation on 8-bit integers: %d\n", dx.b.amx_int8);
+    printf("Speculation Control: %d\n", dx.b.spec_ctrl);
+    printf("Single Thread Indirect Branch Predictor: %d\n", dx.b.stibp);
+    printf("IA32_FLUSH_CMD MSR: %d\n", dx.b.l1d_flush);
+    printf("Speculative Side Channel Mitigations: %d\n", dx.b.ia32_arch_capabilities);
+    printf("Support for a MSR listing model-specific core capabilities: %d\n", dx.b.ia32_core_capabilities);
+    printf("Speculative Store Bypass Disable as mitigation for Speculative Store Bypass  (IA32_SPEC_CTRL): %d\n", dx.b.ssbd);
+}
+
 void query_extensions(void)
 {
-    unsigned ax, dx;
+    unsigned ax;
     union bx bx;
     union cx cx;
+    union dx dx;
 
     ax = 0x7;
     cx.e = 0;
-    cpuid(&ax, &bx.e, &cx.e, &dx);
+    cpuid(&ax, &bx.e, &cx.e, &dx.e);
 
     bx_print(bx);
     cx_print(cx);
+    dx_print(dx);
 }
