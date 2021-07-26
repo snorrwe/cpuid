@@ -1,7 +1,7 @@
 project('cpu-query', 'c', default_options:['warning_level=3'])
 
 
-libquerysrcs = ['src/extensions.c', 'src/cache.c', 'src/info.c']
+libquerysrcs = files(['src/extensions.c', 'src/cache.c', 'src/info.c'])
 libqueryinc = include_directories('include')
 libquery = static_library('libquery', sources: [libquerysrcs], include_directories: libqueryinc)
 

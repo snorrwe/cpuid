@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Meson Build
+      - name: Build
         uses: BSFishy/meson-build@v1.0.3
         with:
           action: build

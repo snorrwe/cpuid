@@ -1,6 +1,10 @@
 #pragma once
 #include <stdio.h>
 
+#if !defined(__x86_64__) && !defined(__x86__)
+#error Only x86 architectures are supported!
+#endif
+
 /**
  * From Table 3-17 of Volume 2 of the Intel SDM
  */
