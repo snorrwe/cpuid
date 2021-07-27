@@ -1,17 +1,17 @@
-project('cpu-query', 'c', default_options:['warning_level=3'])
+project('cq', 'c', default_options:['warning_level=3'])
 
 
-libquerysrcs = files(['src/extensions.c', 'src/cache.c', 'src/info.c'])
-libqueryinc = include_directories('include')
-libquery = static_library('libquery', sources: [libquerysrcs], include_directories: libqueryinc)
+libcqsrcs = files(['src/extensions.c', 'src/cache.c', 'src/info.c'])
+libcqinc = include_directories('include')
+libcq = static_library('libcq', sources: [libcqsrcs], include_directories: libcqinc)
 
-query_dep = declare_dependency(link_with : libquery,
-                               include_directories: libqueryinc)
+cq_dep = declare_dependency(link_with : libcq,
+                               include_directories: libcqinc)
 
-executable('query', sources: 'src/main.c', dependencies: [query_dep])
+executable('cq', sources: 'src/main.c', dependencies: [cq_dep])
 
 # Python extension
 py = import('python')
 py3 = py.find_installation('python3')
 pydep = py3.dependency()
-py3.extension_module('pycq', 'src/pycq.c', dependencies: [pydep, query_dep])
+py3.extension_module('pycq', 'src/pycq.c', dependencies: [pydep, cq_dep])

@@ -15,3 +15,8 @@ cd build
 ninja
 ```
 
+## Running
+
+```
+./cq
+```
