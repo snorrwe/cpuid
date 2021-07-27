@@ -24,6 +24,6 @@ jobs:
           directory: build
       - name: Run
         run: | 
-          ./query
+          ./cq
         
         working-directory: build
