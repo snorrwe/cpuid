@@ -10,10 +10,8 @@ query_dep = declare_dependency(link_with : libquery,
 
 executable('query', sources: 'src/main.c', dependencies: [query_dep])
 
-
+# Python extension
 py = import('python')
-
 py3 = py.find_installation('python3')
-
 pydep = py3.dependency()
 py3.extension_module('pycq', 'src/pycq.c', dependencies: [pydep, query_dep])

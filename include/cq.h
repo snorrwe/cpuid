@@ -28,13 +28,14 @@ struct cq_cache_info {
   unsigned ways_ml : 10;
 };
 
-void cq_extensions(void);
 /**
  * Returns cache_idx = -1 if the cache was not found
  */
 struct cq_cache_info cq_cache(int cache_idx);
 void cq_print_cache_info(FILE *out, struct cq_cache_info const *info);
+
 void cq_cpuinfo(void);
+void cq_extensions(void);
 
 #ifdef __PIC__
 static inline void cq_cpuid(unsigned *restrict const a,

@@ -16,13 +16,21 @@ union ax {
   } b;
 };
 
+union bx {
+    unsigned e;
+    struct {
+        unsigned brand_index: 7;
+    } b;
+};
+
 void cq_cpuinfo(void) {
 
   union ax ax;
-  unsigned bx, cx, dx;
+  union bx bx;
+  unsigned cx, dx;
 
   ax.e = 1;
-  cq_cpuid(&ax.e, &bx, &cx, &dx);
+  cq_cpuid(&ax.e, &bx.e, &cx, &dx);
 
   const unsigned family_id =
       ax.b.family + ((ax.b.family == 0xf) * ax.b.ext_family);
@@ -32,8 +40,9 @@ void cq_cpuinfo(void) {
     model_id += ax.b.ext_model << 4;
   }
 
-  printf("Family Id: %d\n", family_id);
-  printf("Model  Id: %d\n", model_id);
+  printf("Family Id   : %d\n", family_id);
+  printf("Model  Id   : %d\n", model_id);
+  printf("Brand  Index: %d\n", bx.b.brand_index);
 
   const char *ty_str[4] = {
       "Original equipment manufacturer (OEM) Processor",
